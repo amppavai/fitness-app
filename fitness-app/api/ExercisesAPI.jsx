@@ -6,9 +6,13 @@ import axios from 'axios';
 
 const options = {
   method: 'GET',
-  url: 'https://exercisedb.p.rapidapi.com/status',
+  url: 'https://exercisedb.p.rapidapi.com/exercises/bodyPart/back',
+  params: {
+    limit: '10',
+    offset: '0'
+  },
   headers: {
-    'x-rapidapi-key': 'MY_API_KEY',
+    'x-rapidapi-key': '04b273e4e9msh0d56d5af6908687p1b13b4jsndb52caf4d509',
     'x-rapidapi-host': 'exercisedb.p.rapidapi.com'
   }
 };
@@ -18,25 +22,28 @@ try {
     console.log(response.data);
 } catch (error) {
     console.error(error);
-} */
+}*/
 
+import axios from 'axios';
 
-import axios from "axios";
-
-const API_URL = "https://exercisedb.p.rapidapi.com/exercises";
-const API_KEY = "MY_API_KEY";
-
-const apiClient = axios.create({
-    baseURL: API_URL,
-    headers: {
-        "X-RapidAPI-Key": API_KEY,
-        "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
-    },
-});
+//POISTA COMMITOIDESSA!!
+const API_KEY = "04b273e4e9msh0d56d5af6908687p1b13b4jsndb52caf4d509";
+const API_URL = 'https://exercisedb.p.rapidapi.com/exercises';
 
 export const getExercisesByBodyPart = async (bodyPart) => {
+
+    const options = {
+        method: 'GET',
+        url: `${API_URL}/bodyPart/${bodyPart}`,
+        params: { limit: '0', offset: '0' },
+        headers: {
+            'x-rapidapi-key': API_KEY,
+            'x-rapidapi-host': 'exercisedb.p.rapidapi.com'
+        }
+    };
+
     try {
-        const response = await apiClient.get(`/bodyPart/${bodyPart}`);
+        const response = await axios.request(options);
         return response.data;
     } catch (error) {
         console.error("Error fetching exercises:", error);

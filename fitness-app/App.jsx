@@ -31,6 +31,7 @@ export default function App() {
             tabBarActiveTintColor: "#007AFF",
             tabBarInactiveTintColor: "gray",
             headerShown: false,
+            animation: 'shift'
           })}
         >
           <Tab.Screen name="Home" component={Home} />
@@ -50,5 +51,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center', */
   },
-  
+
 });
