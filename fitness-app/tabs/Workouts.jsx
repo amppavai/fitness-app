@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, FlatList, Image, TouchableOpacity, Text, View } from 'react-native';
+import { StyleSheet, FlatList, Image, TouchableOpacity, Text, View, ActivityIndicator } from 'react-native';
 import { getExercisesByBodyPart } from '../api/ExercisesAPI';
 
 export default function Workouts() {
@@ -27,33 +27,30 @@ export default function Workouts() {
         <View style={styles.container}>
             <Text style={styles.title}>Workouts Library</Text>
             <Text style={styles.text}>Select your workout category</Text>
-                <View style={styles.categoryContainer}>
+            <View style={styles.categoryContainer}>
 
-                    {["back", "chest", "upper arms", "lower arms", "lower legs", "upper legs", "shoulders", "cardio", "waist"].map((category) => (
-                        <TouchableOpacity
-                            key={category}
-                            style={[styles.categoryButton, selectedCategory === category && styles.selectedCategory]}
-                            onPress={() => setSelectedCategory(category)}
-                        >
-                            <Text style={styles.categoryText}>{category.toUpperCase()}</Text>
-                        </TouchableOpacity>
-                    ))}
+                {["back", "chest", "upper arms", "lower arms", "lower legs", "upper legs", "shoulders", "cardio", "waist"].map((category) => (
+                    <TouchableOpacity
+                        key={category}
+                        style={[styles.categoryButton, selectedCategory === category && styles.selectedCategory]}
+                        onPress={() => setSelectedCategory(category)}
+                    >
+                        <Text style={styles.categoryText}>{category.toUpperCase()}</Text>
+                    </TouchableOpacity>
+                ))}
 
-                </View>
-            {/* <Text style={styles.title}>All exercises</Text> */}
-
-            <FlatList
-                data={exercises}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                    <View style={styles.exerciseCard}>
-                        <Image source={{ uri: item.gifUrl || "https://via.placeholder.com/100" }} style={styles.image} />
-                        <Text style={styles.exerciseName}>{item.name}</Text>
-                    </View>
-                )}
-            />
+            </View>
+                <FlatList
+                    data={exercises}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                        <View style={styles.exerciseCard}>
+                            <Image source={{ uri: item.gifUrl || "https://via.placeholder.com/100" }} style={styles.image} />
+                            <Text style={styles.exerciseName}>{item.name}</Text>
+                        </View>
+                    )}
+                />
         </View>
-
     );
 }
 

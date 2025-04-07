@@ -1,5 +1,13 @@
 {
   "expo": {
+    "plugins": [
+      [
+        "expo-sensors",
+        {
+          "motionPermission": "Allow $(PRODUCT_NAME) to access your device motion"
+        }
+      ]
+    ],
     "name": "fitness-app",
     "slug": "fitness-app",
     "version": "1.0.0",
