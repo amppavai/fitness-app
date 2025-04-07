@@ -12,12 +12,13 @@ export default function Progress() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#000000',
         alignItems: 'center'
     },
     title: {
         fontSize: 24,
         fontWeight: "bold",
+        color: '#1DCD9F',
         justifyContent: 'flex-start',
         margin: 10,
         marginTop: 20

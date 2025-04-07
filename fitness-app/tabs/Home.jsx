@@ -3,27 +3,35 @@ import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 
 export default function Home() {
   return (
-    <ImageBackground style={styles.image} name="HomepageBg" source={require('../assets/HomeBG.jpg')}>
-      <View style={styles.container}>
+
+    <View style={styles.container}>
+      <ImageBackground style={styles.image} name="HomepageBg" source={require('../assets/HomeBG.jpg')}>
         <Text style={styles.greeting}>WELCOME TO YOUR FITNESS APP</Text>
-      </View>
-    </ImageBackground>
+      </ImageBackground>
+    </View>
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#000000',
     height: '100%',
     width: '100%',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute'
+    flex: 1
   },
   greeting: {
     fontSize: 24,
     fontWeight: "bold",
-    color: '#fff'
+    color: 'white',
+    margin: 10,
+    marginTop: 300
+     /*
+    fontWeight: "bold",
+    color: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute' */
   },
   image: {
     flex: 1

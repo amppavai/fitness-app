@@ -57,12 +57,13 @@ export default function Workouts() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#000000',
         alignItems: 'center'
     },
     title: {
         fontSize: 24,
         fontWeight: "bold",
+        color: '#1DCD9F',
         justifyContent: 'flex-start',
         margin: 10,
         marginTop: 20
@@ -84,11 +85,11 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     selectedCategory: {
-        backgroundColor: "#007AFF"
+        backgroundColor: "#1DCD9F"
     },
     categoryText: {
         fontWeight: "bold",
-        color: "#fff"
+        color: "#222222"
     },
     exerciseCard: {
         padding: 15,
@@ -104,6 +105,7 @@ const styles = StyleSheet.create({
     exerciseName: {
         textAlign: "center",
         fontWeight: "bold",
+        color: '#169976',
         marginTop: 5
     },
 });

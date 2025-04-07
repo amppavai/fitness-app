@@ -2,7 +2,8 @@ import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, SafeAreaView } from 'react-native';
+import { StatusBar, StyleSheet, SafeAreaView } from 'react-native';
+import { BottomTabBarHeightContext } from '@react-navigation/bottom-tabs';
 
 import Home from './tabs/Home';
 import Workouts from './tabs/Workouts';
@@ -13,8 +14,10 @@ import Progress from './tabs/Progress';
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle={'light-content'}/>
       <NavigationContainer>
         <Tab.Navigator
           screenOptions={({ route }) => ({
@@ -28,16 +31,20 @@ export default function App() {
 
               return <Ionicons name={iconName} size={size} color={color} />;
             },
-            tabBarActiveTintColor: "#007AFF",
-            tabBarInactiveTintColor: "gray",
+            tabBarActiveBackgroundColor: "#222222",
+            tabBarInactiveBackgroundColor: "#222222",
+            tabBarActiveTintColor: "#FCF596",
+            tabBarInactiveTintColor: "#1DCD9F",
             headerShown: false,
-            animation: 'shift'
+            animation: 'shift',
+            tabBarStyle: { position: 'absolute' }
           })}
         >
-          <Tab.Screen name="Home" component={Home} />
+          <Tab.Screen style={styles.navigationContainer} name="Home" component={Home} />
           <Tab.Screen name="Workouts" component={Workouts} />
           <Tab.Screen name="Activity" component={Activity} />
           <Tab.Screen name="Progress" component={Progress} />
+
         </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaView>
@@ -47,9 +54,11 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'/* ,
-    alignItems: 'center',
-    justifyContent: 'center', */
+    backgroundColor: '#222222',
+    color: 'white'
+  },
+  navigationContainer: {
+    backgroundColor: '#222222'
   },
 
 });
