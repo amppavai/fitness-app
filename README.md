@@ -1,2 +1,2 @@
 # fitness-app
-Mobiiliohjelmointi-kurssin lopputyö
+#ReactNative #Expo #FirebaseRealtimeDatabase
