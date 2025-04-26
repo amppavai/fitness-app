@@ -1,45 +1,62 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, FlatList, Image, TouchableOpacity, Text, View, ActivityIndicator } from 'react-native';
-import { getExercisesByBodyPart } from '../api/ExercisesAPI';
+import { StyleSheet, FlatList, Image, TouchableOpacity, Text, View, ScrollView } from 'react-native';
+import { getExercisesByBodyPart, getAllExercises } from '../api/ExercisesAPI';
 
 export default function Workouts() {
 
     const [exercises, setExercises] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        fetchExercises();
+    }, []);
 
     useEffect(() => {
         const timer = setTimeout(() => {
             fetchExercises(selectedCategory);
-        }, 500); //add delay to reduce API calls
+        }, 500);
         return () => clearTimeout(timer);
+
     }, [selectedCategory]);
 
     const fetchExercises = async (category) => {
-        setExercises([]); //clear previous results while fetching
-        setTimeout(async () => {
-            const data = await getExercisesByBodyPart(category);
+        try {
+            setLoading(true);
+            setExercises([]);
+            let data = [];
+            if (category) {
+                data = await getExercisesByBodyPart(category);
+            } else {
+                data = await getAllExercises();
+            }
             setExercises(data);
-        }, 1000);
-
+        } catch (error) {
+            console.error('Error fetching exercises:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Workouts Library</Text>
-            <Text style={styles.text}>Select your workout category</Text>
-            <View style={styles.categoryContainer}>
-
-                {["back", "chest", "upper arms", "lower arms", "lower legs", "upper legs", "shoulders", "cardio", "waist"].map((category) => (
-                    <TouchableOpacity
-                        key={category}
-                        style={[styles.categoryButton, selectedCategory === category && styles.selectedCategory]}
-                        onPress={() => setSelectedCategory(category)}
-                    >
-                        <Text style={styles.categoryText}>{category.toUpperCase()}</Text>
-                    </TouchableOpacity>
-                ))}
-
-            </View>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View style={styles.categoryContainer}>
+                    {["all", "back", "chest", "upper arms", "lower arms", "lower legs", "upper legs", "shoulders", "cardio", "waist"].map((category) => (
+                        <TouchableOpacity
+                            key={category}
+                            style={[styles.categoryButton, selectedCategory === (category === "all" ? "" : category) && styles.selectedCategory]}
+                            onPress={() => setSelectedCategory(category === "all" ? "" : category)}
+                        >
+                            <Text style={styles.categoryText}>{category.toUpperCase()}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            </ScrollView>
+            {loading ? (
+                <Text style={styles.loadingText}>Loading...</Text>
+            ) : (
                 <FlatList
                     data={exercises}
                     keyExtractor={(item) => item.id}
@@ -50,6 +67,7 @@ export default function Workouts() {
                         </View>
                     )}
                 />
+            )}
         </View>
     );
 }
@@ -61,38 +79,41 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     title: {
-        fontSize: 24,
+        fontSize: 30,
         fontWeight: "bold",
         color: '#1DCD9F',
         justifyContent: 'flex-start',
         margin: 10,
         marginTop: 20
     },
-    text: {
-        fontSize: 16,
-        fontWeight: "regular",
-        justifyContent: 'flex-start'
-    },
     categoryContainer: {
+        flex: 1,
+        alignItems: 'center',
         flexDirection: "row",
         justifyContent: "center",
-        marginBottom: 20
     },
     categoryButton: {
-        padding: 10,
-        margin: 5,
+        paddingBottom: 5,
+        paddingTop: 5,
+        paddingLeft: 7,
+        paddingRight: 7,
+        margin: 3,
         backgroundColor: "#ddd",
-        borderRadius: 10
+        borderRadius: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     selectedCategory: {
         backgroundColor: "#1DCD9F"
     },
     categoryText: {
+        fontSize: 16,
         fontWeight: "bold",
         color: "#222222"
     },
     exerciseCard: {
-        padding: 15,
+        marginTop: 30,
+        padding: 10,
         backgroundColor: "#f5f5f5",
         borderRadius: 10,
         marginBottom: 10
@@ -108,4 +129,11 @@ const styles = StyleSheet.create({
         color: '#169976',
         marginTop: 5
     },
+    loadingText: {
+        fontSize: 18,
+        color: "#1DCD9F",
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginTop: 20,
+    }
 });
