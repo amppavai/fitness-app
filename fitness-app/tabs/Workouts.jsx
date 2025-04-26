@@ -98,19 +98,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
         height: 50
     },
-    /* categoryButton: {
-        height: 40,
-        paddingHorizontal: 15,
-        marginHorizontal: 5,
-        backgroundColor: "#ddd",
-        borderRadius: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }, */
     scrollViewContent: {
         alignItems: 'center',
         paddingVertical: 10,
-        height: 70, // Tämä lukitsee containerin korkeuden
+        height: 70,
       },
     categoryButton: {
         backgroundColor: "#ddd",
@@ -120,7 +111,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         justifyContent: 'center',
         alignItems: 'center',
-        height: 40, // Sama korkeus kaikille napeille
+        height: 40,
       },
     categoryButtonText: {
         fontSize: 18,

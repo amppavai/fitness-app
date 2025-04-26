@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Modal, TextInput, TouchableOpacity, ScrollView, ToastAndroid, Alert } from 'react-native';
 import { getDatabase, ref, push, onValue, remove } from "firebase/database";
-import { app } from "../firebaseConfig";
+import { app } from "../components/firebaseConfig";
 import { Ionicons } from '@expo/vector-icons';
 
 const db = getDatabase(app);
@@ -26,9 +26,7 @@ export default function Progress() {
                 duration,
                 date: new Date().toISOString().split('T')[0]
             });
-
             ToastAndroid.show('Workout saved successfully!', ToastAndroid.SHORT);
-
             setActivity('');
             setDescription('');
             setDuration('');
@@ -105,7 +103,7 @@ export default function Progress() {
             ]
         );
     };
-    
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Progress</Text>
