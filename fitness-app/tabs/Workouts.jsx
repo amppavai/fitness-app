@@ -41,19 +41,26 @@ export default function Workouts() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Workouts Library</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View style={styles.categoryContainer}>
-                    {["all", "back", "chest", "upper arms", "lower arms", "lower legs", "upper legs", "shoulders", "cardio", "waist"].map((category) => (
-                        <TouchableOpacity
-                            key={category}
-                            style={[styles.categoryButton, selectedCategory === (category === "all" ? "" : category) && styles.selectedCategory]}
-                            onPress={() => setSelectedCategory(category === "all" ? "" : category)}
-                        >
-                            <Text style={styles.categoryText}>{category.toUpperCase()}</Text>
-                        </TouchableOpacity>
-                    ))}
-                </View>
+            <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                bounces={false}
+                contentContainerStyle={styles.scrollViewContent}
+            >
+                {["all", "back", "chest", "upper arms", "lower arms", "lower legs", "upper legs", "shoulders", "cardio", "waist"].map((category) => (
+                    <TouchableOpacity
+                        key={category}
+                        style={[
+                            styles.categoryButton,
+                            selectedCategory === (category === "all" ? "" : category) && styles.selectedCategory
+                        ]}
+                        onPress={() => setSelectedCategory(category === "all" ? "" : category)}
+                    >
+                        <Text style={styles.categoryButtonText}>{category.toUpperCase()}</Text>
+                    </TouchableOpacity>
+                ))}
             </ScrollView>
+
             {loading ? (
                 <Text style={styles.loadingText}>Loading...</Text>
             ) : (
@@ -87,29 +94,43 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     categoryContainer: {
-        flex: 1,
-        alignItems: 'center',
         flexDirection: "row",
-        justifyContent: "center",
+        alignItems: "center",
+        height: 50
     },
-    categoryButton: {
-        paddingBottom: 5,
-        paddingTop: 5,
-        paddingLeft: 7,
-        paddingRight: 7,
-        margin: 3,
+    /* categoryButton: {
+        height: 40,
+        paddingHorizontal: 15,
+        marginHorizontal: 5,
         backgroundColor: "#ddd",
-        borderRadius: 25,
-        alignItems: 'center',
+        borderRadius: 20,
         justifyContent: 'center',
+        alignItems: 'center',
+    }, */
+    scrollViewContent: {
+        alignItems: 'center',
+        paddingVertical: 10,
+        height: 70, // Tämä lukitsee containerin korkeuden
+      },
+    categoryButton: {
+        backgroundColor: "#ddd",
+        borderRadius: 20,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        marginHorizontal: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 40, // Sama korkeus kaikille napeille
+      },
+    categoryButtonText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "#222222",
+        textAlign: 'center',
     },
+
     selectedCategory: {
         backgroundColor: "#1DCD9F"
-    },
-    categoryText: {
-        fontSize: 16,
-        fontWeight: "bold",
-        color: "#222222"
     },
     exerciseCard: {
         marginTop: 30,
