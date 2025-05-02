@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Modal, TextInput, TouchableOpacity, ScrollView,
 import { getDatabase, ref, push, onValue, remove } from "firebase/database";
 import { app } from "../components/firebaseConfig";
 import { Ionicons } from '@expo/vector-icons';
+import { auth } from "../components/firebaseConfig";
 
 const db = getDatabase(app);
 
@@ -18,8 +19,10 @@ export default function Progress() {
 
     const saveActivity = async () => {
         if (activity && description && duration) {
-            const db = getDatabase(app);
-            const activitiesRef = ref(db, 'activities/');
+            const user = auth.currentUser;
+            if (!user) return;
+
+            const activitiesRef = ref(db, `activities/${user.uid}`);
             await push(activitiesRef, {
                 activity,
                 description,
@@ -36,8 +39,12 @@ export default function Progress() {
         }
     };
 
+
     useEffect(() => {
-        const activitiesRef = ref(db, 'activities/');
+        //const activitiesRef = ref(db, 'activities/');
+        const user = auth.currentUser;
+        if (!user) return;
+        const activitiesRef = ref(db, `activities/${user.uid}`);
         const unsubscribe = onValue(activitiesRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -56,8 +63,10 @@ export default function Progress() {
 
     useEffect(() => {
         const db = getDatabase(app);
-        const activitiesRef = ref(db, 'activities/');
-
+        //const activitiesRef = ref(db, 'activities/');
+        const user = auth.currentUser;
+        if (!user) return;
+        const activitiesRef = ref(db, `activities/${user.uid}`);
         const unsubscribe = onValue(activitiesRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -94,8 +103,11 @@ export default function Progress() {
                     text: "Delete",
                     style: "destructive",
                     onPress: async () => {
+                        const user = auth.currentUser;
+                        if (!user) return;
+
                         const db = getDatabase(app);
-                        const activityRef = ref(db, `activities/${id}`);
+                        const activityRef = ref(db, `activities/${user.uid}/${id}`);
                         await remove(activityRef);
                         ToastAndroid.show('Workout deleted!', ToastAndroid.SHORT);
                     }
@@ -107,10 +119,11 @@ export default function Progress() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Progress</Text>
-
-            <TouchableOpacity style={styles.logButton} onPress={() => setModalVisible(true)}>
-                <Text style={styles.logButtonText}>Log your workout</Text>
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                <TouchableOpacity style={styles.logButton} onPress={() => setModalVisible(true)}>
+                    <Text style={styles.logButtonText}>Log your workout</Text>
+                </TouchableOpacity>
+            </View>
             <ScrollView style={{ width: '90%', marginTop: 20 }}>
                 {activities.map((item) => (
                     <View key={item.id} style={styles.activityItem}>
@@ -165,7 +178,7 @@ export default function Progress() {
                     </View>
                 </View>
             </Modal>
-        </View>
+        </View >
     );
 }
 

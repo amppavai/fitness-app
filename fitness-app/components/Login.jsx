@@ -17,7 +17,7 @@ export default function Login({ setIsSignedIn, navigation }) {
         try {
             await signInWithEmailAndPassword(auth, email, password);
             setIsSignedIn(true);
-            navigation.replace('Workouts');
+            //navigation.replace('Workouts');
         } catch (err) {
             setError(err.message);
         }

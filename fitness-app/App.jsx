@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { StatusBar, StyleSheet, SafeAreaView } from 'react-native';
+import { StatusBar, StyleSheet, SafeAreaView, Text } from 'react-native';
 
 import Home from './tabs/Home';
 import Workouts from './tabs/Workouts';
@@ -11,13 +11,15 @@ import Activity from './tabs/Activity';
 import Progress from './tabs/Progress';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
+import Logout from './components/Logout';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-function TabNavigator() {
+function TabNavigator({ setIsSignedIn }) {
   return (
     <Tab.Navigator
+      initialRouteName='Activity'
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           let iconName;
@@ -26,6 +28,7 @@ function TabNavigator() {
           else if (route.name === "Workouts") iconName = "barbell";
           else if (route.name === "Activity") iconName = "footsteps";
           else if (route.name === "Progress") iconName = "stats-chart";
+          else if (route.name === "Logout") iconName = "log-out";
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -38,9 +41,28 @@ function TabNavigator() {
         tabBarStyle: { position: 'absolute' }
       })}
     >
+      {/* <Tab.Screen name="Workouts">{props => <Workouts {...props} setIsSignedIn={setIsSignedIn} />}</Tab.Screen> */}
       <Tab.Screen name="Workouts" component={Workouts} />
-      <Tab.Screen name="Activity" component={Activity} />
       <Tab.Screen name="Progress" component={Progress} />
+      {/* <Tab.Screen name="Activity" component={Activity} /> */}
+      <Tab.Screen name="Activity">{props => <Activity {...props} setIsSignedIn={setIsSignedIn} />}</Tab.Screen>
+      {/* <Tab.Screen name="Logout" component={Logout} /> */}
+      <Tab.Screen
+        name="Logout"
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <Text style={{ color: '#C5172E', fontWeight: focused ? 'bold' : 'normal' }}>
+              Logout
+            </Text>
+          ),
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="log-out" size={size} color="#C5172E" />
+          ),
+        }}
+      >
+        {props => <Logout {...props} setIsSignedIn={setIsSignedIn} />}
+      </Tab.Screen>
+
     </Tab.Navigator>
   );
 }
@@ -66,7 +88,11 @@ export default function App() {
               </Stack.Screen>
             </>
           ) : (
-            <Stack.Screen name="Workouts" component={TabNavigator} />
+            <Stack.Screen name="Progress">
+              {/* Wrokouts */}
+              {props => <TabNavigator {...props} setIsSignedIn={setIsSignedIn} />}
+            </Stack.Screen>
+
           )}
         </Stack.Navigator>
       </NavigationContainer>
