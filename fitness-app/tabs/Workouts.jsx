@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, FlatList, Image, TouchableOpacity, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, FlatList, Image, TouchableOpacity, Text, View, ScrollView, Button } from 'react-native';
 import { getExercisesByBodyPart, getAllExercises } from '../api/ExercisesAPI';
 
 export default function Workouts() {
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 10,
         height: 70,
-      },
+    },
     categoryButton: {
         backgroundColor: "#ddd",
         borderRadius: 20,
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 40,
-      },
+    },
     categoryButtonText: {
         fontSize: 18,
         fontWeight: "bold",

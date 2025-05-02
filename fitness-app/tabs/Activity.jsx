@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native';
 import { Pedometer } from 'expo-sensors';
 import { BarChart } from 'react-native-chart-kit';
+
+/* import { getAuth, signOut } from 'firebase/auth';
+import { Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import Logout from '../components/Logout'; */
 
 //https://docs.expo.dev/versions/latest/sdk/pedometer/
 
 const screenWidth = Dimensions.get("window").width;
 
 export default function Activity() {
+
+    //const navigation = useNavigation();
+
     const [activeTab, setActiveTab] = useState("D");
     const [stepData, setStepData] = useState({ D: [], W: [], M: [], Y: [] });
 
@@ -112,24 +120,36 @@ export default function Activity() {
                 <BarChart
                     data={{
                         labels: activeTab === 'D'
-                            ? currentData.map((entry, index) => index % 6 === 0 ? entry.label : '') // 00, 06, 12, 18 tuntinäyttö
-                            : currentData.map(entry => entry.label), // muut näkymät
+                            ? currentData.map((entry, index) => index % 6 === 0 ? entry.label : '')
+                            : currentData.map(entry => entry.label),
                         datasets: [{ data: stepsArray }]
                     }}
                     width={screenWidth}
                     height={220}
                     withInnerLines={false}
                     withHorizontalLabels={false}
+                    showValuesOnTopOfBars={true}
                     chartConfig={{
                         backgroundColor: "#000",
                         backgroundGradientFrom: "#000",
                         backgroundGradientTo: "#000",
                         decimalPlaces: 0,
-                        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                         barPercentage: 0.5,
+                        color: (opacity = 1) => `rgba(29, 205, 159, ${opacity})`,
+                        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                        fillShadowGradient: '#1DCD9F',
+                        fillShadowGradientOpacity: 1,
+                        useShadowColorFromDataset: false,
+                        propsForBackgroundLines: {
+                            stroke: "transparent",
+                        },
+                        propsForVerticalLabels: {
+                            fontSize: 12,
+                            fontWeight: 'bold',
+                        },
                     }}
                 />
+
             </View>
             <Text style={styles.countLabel}>Count</Text>
             <Text style={styles.countValue}>{countText}</Text>
