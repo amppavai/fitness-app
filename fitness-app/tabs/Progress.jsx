@@ -39,7 +39,7 @@ export default function Progress() {
         }
     };
 
-
+/* 
     useEffect(() => {
         //const activitiesRef = ref(db, 'activities/');
         const user = auth.currentUser;
@@ -59,9 +59,9 @@ export default function Progress() {
         });
 
         return () => unsubscribe();
-    }, []);
+    }, []); */
 
-    useEffect(() => {
+    /* useEffect(() => {
         const db = getDatabase(app);
         //const activitiesRef = ref(db, 'activities/');
         const user = auth.currentUser;
@@ -91,7 +91,44 @@ export default function Progress() {
         });
 
         return () => unsubscribe();
+    }, []); */
+    useEffect(() => {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        const db = getDatabase(app);
+        const activitiesRef = ref(db, `activities/${user.uid}`);
+
+        const unsubscribe = onValue(activitiesRef, (snapshot) => {
+            const data = snapshot.val();
+
+            if (data) {
+                const parsedActivities = Object.entries(data).map(([id, value]) => ({
+                    id,
+                    ...value
+                }));
+
+                setActivitiesList(parsedActivities);
+
+                const today = new Date();
+                const last7Days = new Date(today);
+                last7Days.setDate(today.getDate() - 7);
+
+                const recentActivities = parsedActivities.filter(activity => {
+                    const activityDate = new Date(activity.date);
+                    return activityDate >= last7Days;
+                });
+
+                setActivities(recentActivities);
+            } else {
+                setActivitiesList([]);
+                setActivities([]);
+            }
+        });
+
+        return () => unsubscribe();
     }, []);
+
 
     const deleteActivity = (id) => {
         Alert.alert(

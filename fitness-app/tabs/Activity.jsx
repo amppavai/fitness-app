@@ -3,18 +3,11 @@ import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-nati
 import { Pedometer } from 'expo-sensors';
 import { BarChart } from 'react-native-chart-kit';
 
-/* import { getAuth, signOut } from 'firebase/auth';
-import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import Logout from '../components/Logout'; */
-
 //https://docs.expo.dev/versions/latest/sdk/pedometer/
 
 const screenWidth = Dimensions.get("window").width;
 
 export default function Activity() {
-
-    //const navigation = useNavigation();
 
     const [activeTab, setActiveTab] = useState("D");
     const [stepData, setStepData] = useState({ D: [], W: [], M: [], Y: [] });
